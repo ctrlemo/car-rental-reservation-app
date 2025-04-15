@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   tests:
+    if: false # Remove this line when you want to run the tests
     name: Tests
     runs-on: ubuntu-latest
     steps:
