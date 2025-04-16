@@ -6,12 +6,27 @@ with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) 
 ![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
 
 ## Getting Started
+Please open a terminal window that points to the root of this project folder
 
 1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
 2. Run `docker compose build --no-cache` to build fresh images
 3. Run `docker compose up --pull always -d --wait` to set up and start a fresh Symfony project
 4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+5. Follow the step [here](docs/tls.md) to run a command for your Mac or Windows or Linux to add the certificate to your trusted root store of your machine.
+6. Run `docker compose down --remove-orphans` to stop the Docker containers.
+
+## Database migrations and fixtures
+Please open a terminal window that points to the root of this project folder
+
+1. Run `docker compose exec php bin/console doctrine:migrations:migrate` to run the migration scripts located [in](migrations).
+2. Run `docker compose exec php bin/console doctrine:fixtures:load` to populate the database tables with data.
+
+## After Getting started - after you already build docker images and pulled them.
+Please open a terminal window that points to the root of this project folder
+
+1. Run `docker compose up -d --wait` to start the existing project back up
+2. Open `https://localhost` to view the application
+3. Run `docker compose down --remove-orphans` to stop the Docker containers.
 
 ## Features
 
