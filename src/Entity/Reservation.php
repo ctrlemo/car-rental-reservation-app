@@ -1,0 +1,115 @@
+<?php
+
+namespace App\Entity;
+
+//external
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+//local
+use App\Repository\ReservationRepository;
+use App\Entity\Vehicle;
+
+
+#[ORM\Entity(repositoryClass: ReservationRepository::class)]
+class Reservation
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
+    /*
+    * TODO:
+    * - The id type can be changed to a non-integer non-incremental type
+    * - if needed, that is not easily guessable to improve security.
+    * - For example, a UUID or ULID or a hash of the user email and the date of the reservation.
+    * - This will make it harder for attackers to guess the id of a reservation
+    * - but remember that UUID and ULID are not sequential and can cause performance issues
+    * - in some databases, especially if you have a lot of reservations.
+    * - So, use it wisely.
+    * - You might also consider using a combination of a timestamp and a counter, or using a hashing function to generate unique identifiers.
+    */
+
+    #[ORM\Column(type: 'date')]
+    private \DateTimeInterface $startDate;
+
+    #[ORM\Column(type: 'date')]
+    #[Assert\GreaterThanOrEqual(
+        propertyPath: 'startDate',
+        message: 'The end date must be greater than or equal to the start date.'
+    )]
+    private \DateTimeInterface $endDate;
+
+    #[ORM\Column(type: 'integer', options: ['unsigned' => true, 'min' => 1])]
+    #[Assert\Range(min: 1)]
+    private int $passengerCount;
+
+    #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
+    private string $userEmail;
+
+    #[ORM\ManyToOne(targetEntity: Vehicle::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private Vehicle $car;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    public function getStartDate(): \DateTimeInterface
+    {
+        return $this->startDate;
+    }
+    public function setStartDate(\DateTimeInterface $startDate): static
+    {
+        $this->startDate = $startDate;
+
+        return $this;
+    }
+    public function getEndDate(): \DateTimeInterface
+    {
+        return $this->endDate;
+    }
+    public function setEndDate(\DateTimeInterface $endDate): static
+    {
+        $this->endDate = $endDate;
+
+        return $this;
+    }
+    public function getPassengerCount(): int
+    {
+        return $this->passengerCount;
+    }
+    public function setPassengerCount(int $passengerCount): static
+    {
+        $this->passengerCount = $passengerCount;
+
+        return $this;
+    }
+    public function getUserEmail(): string
+    {
+        return $this->userEmail;
+    }
+    public function setUserEmail(string $userEmail): static
+    {
+        $this->userEmail = $userEmail;
+
+        return $this;
+    }
+    public function getCar(): Vehicle
+    {
+        return $this->car;
+    }
+    public function setCar(Vehicle $car): static
+    {
+        $this->car = $car;
+
+        return $this;
+    }
+    public function getPrice(): int
+    {
+        $days = $this->endDate->diff($this->startDate)->days;
+        return $days * $this->car->pricePerDay();
+    }
+
+}
