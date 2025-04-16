@@ -77,6 +77,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.1",
         "friendsofphp/php-cs-fixer": "^3.75",
         "symfony/maker-bundle": "^1.62",
         "symfony/stopwatch": "7.2.*",
