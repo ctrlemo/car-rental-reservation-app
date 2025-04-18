@@ -55,7 +55,7 @@ class Vehicle
         return $this;
     }
 
-    public function pricePerDay(): int
+    public function getPricePerDay(): int
     {
         return $this->pricePerDay;
     }
@@ -104,7 +104,7 @@ class Vehicle
     {
         return sprintf(
             '%s (ID: %d, Capacity: %d, Price per day: %d, Fuel percentage: %d)',
-            $this->type,
+            $this->type->value,
             $this->id,
             $this->capacity,
             $this->pricePerDay,

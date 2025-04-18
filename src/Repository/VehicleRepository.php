@@ -2,9 +2,14 @@
 
 namespace App\Repository;
 
-use App\Entity\Vehicle;
+//external
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use DateTimeInterface;
+
+//local
+use App\Entity\Vehicle;
+use App\Enum\VehicleStatus;
 
 /**
  * @extends ServiceEntityRepository<Vehicle>
@@ -15,6 +20,25 @@ class VehicleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Vehicle::class);
     }
+
+    public function findVehiclesByCapacityAndStatus(int $minCapacity, VehicleStatus $status = VehicleStatus::AVAILABLE ): array
+    {
+        return $this->createQueryBuilder('v')
+            ->andWhere('v.capacity >= :minCapacity')
+            ->andWhere('v.status = :status')
+            ->setParameter('minCapacity', $minCapacity)
+            ->setParameter('status', $status)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAll(): array
+    {
+        return $this->createQueryBuilder('v')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 //    /**
 //     * @return Vehicle[] Returns an array of Vehicle objects

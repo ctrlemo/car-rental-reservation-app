@@ -10,7 +10,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ReservationRepository;
 use App\Entity\Vehicle;
 
-
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
 {
@@ -50,7 +49,7 @@ class Reservation
 
     #[ORM\ManyToOne(targetEntity: Vehicle::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private Vehicle $car;
+    private Vehicle $vehicle;
 
     public function getId(): int
     {
@@ -96,20 +95,32 @@ class Reservation
 
         return $this;
     }
-    public function getCar(): Vehicle
+    public function getVehicle(): Vehicle
     {
-        return $this->car;
+        return $this->vehicle;
     }
-    public function setCar(Vehicle $car): static
+    public function setVehicle(Vehicle $vehicle): static
     {
-        $this->car = $car;
+        $this->vehicle = $vehicle;
 
         return $this;
     }
     public function getPrice(): int
     {
         $days = $this->endDate->diff($this->startDate)->days;
-        return $days * $this->car->pricePerDay();
+        return $days * $this->vehicle->getPricePerDay();
     }
 
+    public function __toString(): string
+    {
+        return sprintf(
+            'Reservation (ID: %d, Vehicle: %s, Start Date: %s, End Date: %s, Passenger Count: %d, User Email: %s)',
+            $this->id,
+            $this->vehicle,
+            $this->startDate->format('Y-m-d'),
+            $this->endDate->format('Y-m-d'),
+            $this->passengerCount,
+            $this->userEmail
+        );
+    }
 }
