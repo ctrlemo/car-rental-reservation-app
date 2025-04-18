@@ -9,11 +9,14 @@ use Doctrine\Persistence\ObjectManager;
 //internal
 use Psr\Log\LoggerInterface;
 use Exception;
+use DateTime;
+
 
 //local
 use App\Enum\VehicleType;
 use App\Enum\VehicleStatus;
 use App\Entity\Vehicle;
+use App\Entity\Reservation;
 
 class AppFixtures extends Fixture
 {
@@ -82,6 +85,44 @@ class AppFixtures extends Fixture
             // and commit the transaction
             // This is important to ensure that the data is saved
             // and that the database is in a consistent state 
+
+
+            // lets create a reservation for each vehicle type
+            $startDate = new DateTime();
+            foreach ($vehicles as $index => $vehicleData) {
+                // Create a new Reservation entity
+                $reservation = new Reservation();
+                $reservation->setStartDate($startDate);
+                $reservation->setEndDate(($startDate)->modify('+7 day'));
+                $reservation->setPassengerCount($vehicleData['capacity']);
+                $reservation->setUserEmail('user' . $index . '@example.com'); // Use the index for userEmail
+
+                $vehicle = $manager->getRepository(Vehicle::class)->findOneBy([
+                    'status' => $vehicleData['status']->value,
+                    'type' => $vehicleData['type']->value,
+                ]);
+                
+                $this->logger->info('Vehicle found: ' . $vehicle->getId());
+
+                if ($vehicle) {
+                    $reservation->setVehicle($vehicle);
+                }
+
+                // Persist the reservation entity
+                $manager->persist($reservation);
+
+                // Flush the persisted entities to the database
+                // This will execute all the SQL queries to insert the data into the database
+                // and commit the transaction
+                // This is important to ensure that the data is saved
+                // and that the database is in a consistent state
+                $manager->flush();
+            }
+
+
+            // Log the successful loading of fixtures
+            $this->logger->info('Fixtures loaded successfully.');
+
         } catch (Exception $e) {
             // Log the error
             $this->logger->error('An error occurred while loading fixtures: ' . $e->getMessage(), [
