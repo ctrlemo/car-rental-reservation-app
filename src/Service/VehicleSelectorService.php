@@ -8,6 +8,7 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraints as Assert;
+use Psr\Log\LoggerInterface;
 use DateInterval;
 use DateTimeInterface;
 use DateTime;
@@ -24,9 +25,10 @@ class VehicleSelectorService
         private VehicleRepository $vehicleRepository,
         private ReservationRepository $reservationRepository,
         private EntityManagerInterface $em,
-        private int $minRentalDays = 1,
-        private int $maxRentalDays = 30,
-        private int $cooldownDays = 7 // one rental per Z days
+        private int $minRentalDays,
+        private int $maxRentalDays,
+        private int $cooldownDays, // one rental per Z days
+        private LoggerInterface $logger,
     ) {}
 
     /**
@@ -140,6 +142,11 @@ class VehicleSelectorService
      */
     public function getAllVehicles(): array
     {
+        $this->logger->info('findAllVehicles called');
+        $this->logger->info('minRentalDays: ' . $this->minRentalDays);
+        $this->logger->info('maxRentalDays: ' . $this->maxRentalDays);
+        $this->logger->info('cooldownDays: ' . $this->cooldownDays);
+        
         return $this->vehicleRepository->findAll();
     }
     
