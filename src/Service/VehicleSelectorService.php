@@ -84,6 +84,12 @@ class VehicleSelectorService
             ];
         }
 
+        /*
+        * TODO: Step 3 and 4 can be combined into a single query to improve performance.
+        * The single query can be moved to the database as a stored procedure, which will
+        * perform better.
+        */
+
         // 3. Get all vehicles that match capacity and are available by status
         $vehicles = $this->vehicleRepository->findVehiclesByCapacityAndStatus($passengerCount);
 
