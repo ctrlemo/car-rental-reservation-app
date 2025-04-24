@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="color-scheme" content="light">
+		<meta name="color-scheme" content="light dark">
 		<title>CARR App
 			{% block title %}{% endblock %}
 		</title>
@@ -17,13 +17,19 @@
 			<nav>
 				<ul>
 					<li>
-						<strong>CARR App</strong>
+						<strong>🚗 CARR App</strong>
 					</li>
 				</ul>
 				<ul>
-					<li><a href="{{path('app_home')}}">Home</a></li>
-					<li><a href="{{path('app_admin_index')}}">Manage</a></li>
-
+					<li>
+						<a href="{{path('app_home')}}">Home</a>
+					</li>
+					<li>
+						<a href="{{path('app_admin_index')}}">Manage</a>
+					</li>
+					<li>
+						<button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+					</li>
 				</ul>
 			</nav>
 		</header>
