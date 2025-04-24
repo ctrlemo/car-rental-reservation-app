@@ -21,7 +21,8 @@ Please open a terminal window that points to the root of this project folder
 1. Run `docker compose exec php bin/console doctrine:migrations:migrate` to run the migration scripts located [in](migrations).
 2. Run `docker compose exec php bin/console doctrine:fixtures:load` to populate the database tables with data.
 
-## After Getting started - after you already build docker images and pulled them.
+## After Getting started - after you already build docker images and pulled them initially.
+You are returning back to the project and stopped the docker container's and now maybe want to start the project back up.
 Please open a terminal window that points to the root of this project folder
 
 1. Run `docker compose up -d --wait` to start the existing project back up
