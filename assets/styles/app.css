@@ -17,3 +17,19 @@ form label.required:after {
 form .validation-errors ul {
     color: var(--pico-color-red-500);
 }
+
+/* flash messages */
+[class^="flash-"] header {
+    color: var(--pico-color-light);
+    text-transform: capitalize;
+}
+.flash-notice header {
+    background-color: var(--pico-color-blue-500);
+}
+.flash-warning header {
+    background-color: var(--pico-color-yellow-100);
+    color: var(--pico-color-dark);
+}
+.flash-error header {
+    background-color: var(--pico-color-green-500);
+}
