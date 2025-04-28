@@ -22,10 +22,10 @@
 				</ul>
 				<ul>
 					<li>
-						<a href="{{path('app_home')}}">Home</a>
+						<a href="{{ path(constant('App\\Constants\\AppConstants::ROUTE_HOME')) }}">Home</a>
 					</li>
 					<li>
-						<a href="{{path('app_admin_index')}}">Manage</a>
+						<a href="{{path(constant('App\\Constants\\AppConstants::ROUTE_ADMIN_INDEX')) }}">Manage</a>
 					</li>
 					<li>
 						<button id="theme-toggle" aria-label="Toggle theme">🌙</button>
