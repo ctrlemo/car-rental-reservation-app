@@ -8,3 +8,12 @@ main.container {
         max-width: 35vw;
       }
 }
+
+/* form related styles */
+form label.required:after {
+    content: "*";
+    color: var(--pico-color-red-500);
+}
+form .validation-errors ul {
+    color: var(--pico-color-red-500);
+}

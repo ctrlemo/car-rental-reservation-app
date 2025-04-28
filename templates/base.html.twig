@@ -33,14 +33,16 @@
 				</ul>
 			</nav>
 		</header>
-		<main class="container"> {% block body %}{% endblock %}
-			</main>
-			<footer class="container">
-				{% block footer %}
-					<p>©
-						{{ "now"|date("Y") }}
-						CARR App</p>
-				{% endblock %}
-			</footer>
+		<main class="container">
+			{% form_theme form 'form_theme.html.twig' %}
+			{% block body %}{% endblock %}
+		</main>
+		<footer class="container">
+			{% block footer %}
+				<p>©
+					{{ "now"|date("Y") }}
+					CARR App</p>
+			{% endblock %}
+		</footer>
 		</body>
 	</html>

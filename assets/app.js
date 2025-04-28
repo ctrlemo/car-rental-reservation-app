@@ -4,6 +4,7 @@
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
  */
+import "../vendor/picocss/pico/css/pico.colors.min.css";
 import "../vendor/picocss/pico/css/pico.min.css";
 import "./styles/app.css";
 

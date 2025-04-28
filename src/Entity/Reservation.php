@@ -30,9 +30,17 @@ class Reservation
     */
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: 'The start date cannot be null.')]
+    #[Assert\NotBlank(message: 'The start date cannot be blank.')]
+    #[Assert\GreaterThanOrEqual(
+        value: 'today',
+        message: 'The start date must be today or a future date.'
+    )]
     private \DateTimeInterface $startDate;
 
     #[ORM\Column(type: 'date')]
+    #[Assert\NotNull(message: 'The end date cannot be null.')]
+    #[Assert\NotBlank(message: 'The end date cannot be blank.')]
     #[Assert\GreaterThanOrEqual(
         propertyPath: 'startDate',
         message: 'The end date must be greater than or equal to the start date.'
@@ -44,6 +52,7 @@ class Reservation
     private int $passengerCount;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: 'The email cannot be blank.')]
     #[Assert\Email(message: 'The email "{{ value }}" is not a valid email.')]
     private string $userEmail;
 
