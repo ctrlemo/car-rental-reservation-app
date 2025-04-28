@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 //local
 use App\Entity\Reservation;
@@ -24,7 +25,9 @@ class ReservationType extends AbstractType
             ->add('endDate', DateType::class, [
                 'widget' => 'single_text',
             ])
-            ->add('passengerCount')
+            ->add('passengerCount', IntegerType::class, [
+                'attr'=> ['min' => '1'],
+            ])
             ->add('userEmail', EmailType::class, [
               'attr'=> ['placeholder' => 'something@something.com'],
             ])

@@ -48,7 +48,7 @@ class Reservation
     private \DateTimeInterface $endDate;
 
     #[ORM\Column(type: 'integer', options: ['unsigned' => true, 'min' => 1])]
-    #[Assert\Range(min: 1)]
+    #[Assert\Range(min: 1, notInRangeMessage: 'The passenger count must be at least {{ min }}.')]
     private int $passengerCount;
 
     #[ORM\Column(type: 'string', length: 100)]
