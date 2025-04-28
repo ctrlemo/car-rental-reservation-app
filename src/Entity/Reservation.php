@@ -124,8 +124,8 @@ class Reservation
     {
         return sprintf(
             'Reservation (ID: %d, Vehicle: %s, Start Date: %s, End Date: %s, Passenger Count: %d, User Email: %s)',
-            $this->id,
-            $this->vehicle,
+            $this->id ?? 'N/A',
+            $this->vehicle ?? 'N/A',
             $this->startDate->format('Y-m-d'),
             $this->endDate->format('Y-m-d'),
             $this->passengerCount,

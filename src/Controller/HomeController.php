@@ -31,8 +31,22 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
              $reservation = $form->getData();
-             dd($reservation);
-            //return $this->redirectToRoute('app_reservation_index');
+             // dd($reservation);
+
+            // Store the reservation data in the session.
+            // Note: I could just pass the reservation data through querystring parameters to the next page
+            // since it is not sensitive data like password or credit card number.
+            // but I don't want to expose the reservation data in the URL and have to worry about validating it again on the next page.
+            $session = $request->getSession();
+            $session->set('reservation', [
+                'startDate' => $reservation->getStartDate(),
+                'endDate' => $reservation->getEndDate(),
+                'passengerCount' => $reservation->getPassengerCount(),
+                'userEmail' => $reservation->getUserEmail(),
+            ]);
+
+            // Redirect to a confirmation page or another action.
+            return $this->redirectToRoute('app_reservation_index');
         }
 
         return $this->render('home/index.html.twig', [

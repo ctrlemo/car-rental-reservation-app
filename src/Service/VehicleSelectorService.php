@@ -34,16 +34,16 @@ class VehicleSelectorService
     /**
      * Find available vehicles based on passenger count and rental period.
      *
-     * @param int $passengerCount The number of passengers.
      * @param DateTimeInterface $startDate The start date of the rental period.
      * @param DateTimeInterface $endDate The end date of the rental period.
+     * @param int $passengerCount The number of passengers.
      * @param string $userEmail The user's email address for reservation tracking.
      * @return Vehicle[]| Returns an array of available vehicles or null if no vehicles are found.
      */
     public function findAvailableVehicles(
-        int $passengerCount,
         DateTime $startDate,
         DateTime $endDate,
+        int $passengerCount,
         string $userEmail
     ): array {
         $validator = Validation::createValidator();
@@ -124,7 +124,7 @@ class VehicleSelectorService
         $altStart = (clone $startDate)->modify("+{$shiftDays} days");
         $altEnd = (clone $altStart)->modify("+{$this->minRentalDays} days");
 
-        $altVehicles = $this->findAvailableVehicles($passengerCount, $altStart, $altEnd, $userEmail);
+        $altVehicles = $this->findAvailableVehicles($altStart, $altEnd, $passengerCount, $userEmail);
 
         if ($altVehicles) {
             return [

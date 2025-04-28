@@ -34,7 +34,18 @@
 			</nav>
 		</header>
 		<main class="container">
-			{% form_theme form 'form_theme.html.twig' %}
+			{% if form is defined and form is not empty %}
+				{% form_theme form 'form_theme.html.twig' %}
+			{% endif %}
+			{# read and display all flash messages #}
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+				<article class="flash-{{ label }}">
+					<header>{{label}}</header>
+					{{ message }}
+				</article>
+				{% endfor %}
+			{% endfor %}
 			{% block body %}{% endblock %}
 		</main>
 		<footer class="container">

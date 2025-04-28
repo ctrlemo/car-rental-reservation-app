@@ -3,5 +3,8 @@
 {% block body %}
     <h4>Please fill out this form to make your reservation.</h4>
 
-    {{ form(form) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+    {{ form_end(form) }}
+
 {% endblock %}
