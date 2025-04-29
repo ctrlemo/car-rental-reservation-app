@@ -76,7 +76,8 @@ class VehicleSelectorService
             new Assert\Count([
                 'min' => 0,
                 'max' => 0,
-                'maxMessage' => 'You have a reservation within the cooldown period.',
+                'exactMessage' => 'You already have a reservation within the cooldown period of ' . $this->cooldownDays . ' days.' . 
+                    (!empty($recentReservations) ? ' You can make your next reservation after ' . (new DateTime($recentReservations[0]->getStartDate()->format('Y-m-d')))->add(new DateInterval("P{$this->cooldownDays}D"))->format('Y-m-d') . '.' : ''),
             ]),
         ]);
         if (count($violations) > 0) {
