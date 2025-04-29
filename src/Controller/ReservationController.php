@@ -21,25 +21,34 @@ class ReservationController extends AbstractController
     public function index(SessionInterface $session, VehicleSelectorService $vehicleSelectorService): Response
     {
     // Retrieve reservation data from the session
-    $reservationData = $session->get(AppConstants::SESSION_RESERVATION_KEY);
-    // dd($reservationData);
-    if (!$reservationData) {
+    $reservation = $session->get(AppConstants::SESSION_RESERVATION_KEY);
+    // dd($reservation);
+    if (!$reservation) {
         $this->addFlash('notice', 'No reservation data found.');
         return $this->redirectToRoute(AppConstants::ROUTE_HOME);
     }
 
     // Use VehicleSelectorService to find available vehicles
-    // $availableVehicles = $vehicleSelectorService->findAvailableVehicles(
-    //     new DateTime($reservationData['startDate']),
-    //     new DateTime($reservationData['endDate']),
-    //     $reservationData['passengerCount'],
-    //     $reservationData['userEmail']
-    // );
+    $availableVehicles = $vehicleSelectorService->findAvailableVehicles(
+        $reservation['startDate'],
+        $reservation['endDate'],
+        $reservation['passengerCount'],
+        $reservation['userEmail']
+    );
 
-    // if (empty($availableVehicles)) {
-    //     $this->addFlash('notice', 'No vehicles are available for the selected dates.');
-    //     return $this->redirectToRoute(AppConstants::ROUTE_HOME);
-    // }
+    //dd($availableVehicles);
+
+    if (empty($availableVehicles)) {
+        $this->addFlash('notice', 'No vehicles are available for the selected dates.');
+        return $this->redirectToRoute(AppConstants::ROUTE_HOME);
+    }
+    
+    // Check for errors in the available vehicles array
+    $flashType = array_intersect_key(array_flip(['error', 'warning', 'notice']), $availableVehicles);
+    if ($flashType) {
+        $this->addFlash(array_key_first($flashType), 'An error occurred while fetching available vehicles. ' . $availableVehicles['message']);
+        return $this->redirectToRoute(AppConstants::ROUTE_HOME);
+    }
 
     // return $this->render('reservation/index.html.twig', [
     //     'availableVehicles' => $availableVehicles,

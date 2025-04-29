@@ -24,12 +24,12 @@ form .validation-errors ul {
     text-transform: capitalize;
 }
 .flash-notice header {
-    background-color: var(--pico-color-blue-500);
+    background-color: var(--pico-color-green-500);
 }
 .flash-warning header {
     background-color: var(--pico-color-yellow-100);
     color: var(--pico-color-dark);
 }
 .flash-error header {
-    background-color: var(--pico-color-green-500);
+    background-color: var(--pico-color-red-500);
 }

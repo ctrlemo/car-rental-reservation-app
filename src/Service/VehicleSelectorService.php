@@ -60,7 +60,7 @@ class VehicleSelectorService
     
         if (count($violations) > 0) {
             return [
-                'error' => true,
+                'warning' => true,
                 'message' => (string) $violations,
             ];
         }
@@ -68,7 +68,7 @@ class VehicleSelectorService
         // 2. Enforce cooldown period
         $recentReservations = $this->reservationRepository->findByUserEmailInRange(
             $userEmail,
-            (new DateTime($startDate->format('Y-m-d H:i:s')))->sub(new DateInterval("P{$this->cooldownDays}D")),
+            (new DateTime($startDate->format('Y-m-d')))->sub(new DateInterval("P{$this->cooldownDays}D")),
             $endDate
         );
 
@@ -76,12 +76,12 @@ class VehicleSelectorService
             new Assert\Count([
                 'min' => 0,
                 'max' => 0,
-                'notInRangeMessage' => 'You have a reservation within the cooldown period.',
+                'maxMessage' => 'You have a reservation within the cooldown period.',
             ]),
         ]);
         if (count($violations) > 0) {
             return [
-                'error' => true,
+                'warning' => true,
                 'message' => (string) $violations,
             ];
         }
