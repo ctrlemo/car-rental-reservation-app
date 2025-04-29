@@ -41,9 +41,9 @@ class Reservation
     #[ORM\Column(type: 'date')]
     #[Assert\NotNull(message: 'The end date cannot be null.')]
     #[Assert\NotBlank(message: 'The end date cannot be blank.')]
-    #[Assert\GreaterThanOrEqual(
+    #[Assert\GreaterThan(
         propertyPath: 'startDate',
-        message: 'The end date must be greater than or equal to the start date.'
+        message: 'The end date must be greater than the start date.'
     )]
     private \DateTimeInterface $endDate;
 
