@@ -31,7 +31,7 @@ class HomeController extends AbstractController
         $today = new DateTime();
         $reservation = new Reservation();
         $reservation->setStartDate($today);
-        $reservation->setEndDate($today->modify('+' . AppConstants::DEFAULT_RESERVATION_DAYS . ' days'));
+        $reservation->setEndDate((clone $today)->modify('+' . AppConstants::DEFAULT_RESERVATION_DAYS . ' days'));
         $reservation->setPassengerCount(AppConstants::DEFAULT_PASSENGER_COUNT);
 
         $form = $this->createForm(ReservationType::class, $reservation);
