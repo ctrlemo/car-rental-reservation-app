@@ -93,7 +93,7 @@ class AppFixtures extends Fixture
                 // Create a new Reservation entity
                 $reservation = new Reservation();
                 $reservation->setStartDate($startDate);
-                $reservation->setEndDate(($startDate)->modify('+7 day'));
+                $reservation->setEndDate((clone $startDate)->modify('+7 day'));
                 $reservation->setPassengerCount($vehicleData['capacity']);
                 $reservation->setUserEmail('user' . $index . '@example.com'); // Use the index for userEmail
 
