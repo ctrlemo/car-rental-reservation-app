@@ -50,10 +50,9 @@ class ReservationController extends AbstractController
         return $this->redirectToRoute(AppConstants::ROUTE_HOME);
     }
 
-    // return $this->render('reservation/index.html.twig', [
-    //     'availableVehicles' => $availableVehicles,
-    // ]);
-
-    return $this->render('reservation/index.html.twig');
+    return $this->render('reservation/index.html.twig', [
+        'availableVehicles' => $availableVehicles,
+    ]);
+    
     }
 }
