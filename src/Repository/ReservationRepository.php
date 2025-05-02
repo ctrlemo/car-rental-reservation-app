@@ -43,24 +43,50 @@ class ReservationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find reservations by vehicle ID within a date range.
+     * Find reservations by vehicle ID that overlap with a date range.
+     *
+     * This method retrieves reservations for a specific vehicle where the reservation's
+     * end date is on or after the start of the given range, or the reservation's start date
+     * is on or before the end of the given range.
      *
      * @param int $vehicleId The vehicle ID.
      * @param DateTimeInterface $start The start date of the range.
      * @param DateTimeInterface $end The end date of the range.
      * @return Reservation[] Returns an array of Reservation objects.
      */
-    public function findByVehicleInRange(int $vehicleId, DateTimeInterface $start, DateTimeInterface $end): array
+    public function findOverlappingReservationsByVehicle(int $vehicleId, DateTimeInterface $start, DateTimeInterface $end): array
     {
         return $this->createQueryBuilder('r')
-            ->andWhere('r.vehicle = :vehicleId')
-            ->andWhere('r.endDate BETWEEN :start AND :end')
+            ->Where('r.vehicle = :vehicleId')
+            ->andWhere('r.endDate >= :start OR r.startDate <= :end')
             ->setParameter('vehicleId', $vehicleId)
             ->setParameter('start', $start)
             ->setParameter('end', $end)
             ->getQuery()
             ->getResult();
     }
+
+    /**
+     * Find the count of reservations by vehicle ID that overlap with a date range.
+     *
+     * @param int $vehicleId The vehicle ID.
+     * @param DateTimeInterface $start The start date of the range.
+     * @param DateTimeInterface $end The end date of the range.
+     * @return int Returns the count of overlapping reservations.
+     */
+    public function countOverlappingReservationsByVehicle(int $vehicleId, DateTimeInterface $start, DateTimeInterface $end): int
+    {
+        return (int) $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->andWhere('r.vehicle = :vehicleId')
+            ->andWhere('r.endDate >= :start OR r.startDate <= :end')
+            ->setParameter('vehicleId', $vehicleId)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    
     /**
      * Find a reservation by its ID.
      *

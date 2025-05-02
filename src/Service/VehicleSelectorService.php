@@ -107,12 +107,13 @@ class VehicleSelectorService
         $availableVehicles = [];
         // 4. Filter out vehicles that are already reserved
         foreach ($vehicles as $vehicle) {
-            $reservations = $this->reservationRepository->findByVehicleInRange(
+            $overlappingReservationsCount = $this->reservationRepository->countOverlappingReservationsByVehicle(
                 $vehicle->getId(),
                 $startDate,
                 $endDate
             );
-            if (count($reservations) === 0) {
+
+            if ($overlappingReservationsCount === 0) {
                 $availableVehicles[] = $vehicle;
             }
         }
