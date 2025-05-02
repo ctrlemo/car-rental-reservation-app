@@ -46,6 +46,8 @@ class VehicleSelectorService
         int $passengerCount,
         string $userEmail
     ): array {
+        $this->logger->info('findAvailableVehicles called');
+
         $validator = Validation::createValidator();
 
         // 1. Validate rental period
@@ -59,6 +61,9 @@ class VehicleSelectorService
         ]);
     
         if (count($violations) > 0) {
+            $this->logger->warning('Rental period validation failed {violations}', [
+                'violations' => (string) $violations,
+            ]);
             return [
                 'warning' => true,
                 'message' => (string) $violations,
@@ -81,6 +86,9 @@ class VehicleSelectorService
             ]),
         ]);
         if (count($violations) > 0) {
+            $this->logger->warning('Cooldown period validation failed {violations}', [
+                'violations' => (string) $violations,
+            ]);
             return [
                 'warning' => true,
                 'message' => (string) $violations,
@@ -108,9 +116,6 @@ class VehicleSelectorService
                 $availableVehicles[] = $vehicle;
             }
         }
-
-        // 4. Sort by price
-        usort($availableVehicles, fn(Vehicle $a, Vehicle $b) => $a->getPricePerDay() <=> $b->getPricePerDay());
 
         return $availableVehicles ?? [];
     }

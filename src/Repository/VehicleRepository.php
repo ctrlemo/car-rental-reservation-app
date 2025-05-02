@@ -28,6 +28,8 @@ class VehicleRepository extends ServiceEntityRepository
             ->andWhere('v.status = :status')
             ->setParameter('minCapacity', $minCapacity)
             ->setParameter('status', $status)
+            ->orderBy('v.capacity', 'ASC')
+            ->addOrderBy('v.pricePerDay', 'ASC')
             ->getQuery()
             ->getResult();
     }
