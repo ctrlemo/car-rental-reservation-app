@@ -1,18 +1,51 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    - Reservation Results
+	- Reservation Results
 {% endblock %}
 
 {% block body %}
-    <h1>Reservation Process</h1>
+	<h1>Reservation Process</h1>
 
-    <p>Available vehicles</p>
-    <ul>
-        {% for vehicle in availableVehicles %}
-            <li>{{ vehicle }}</li>
-        {% endfor %}
+	<p>Available vehicles</p>
+	<ul>
+		{% for vehicle in availableVehicles %}
+			<li>{{ vehicle }}</li>
+		{% endfor %}
+	</ul>
+	<div class="vehicle-list grid">
+		{% for vehicle in availableVehicles %}
+			<article id="{{ vehicle.getId() }}">
+				<header>
+					<h5>{{ vehicle.getType().value }}
+						{% if vehicle.getType().value == 'convertible' %}
+							🏎️
+						{% elseif vehicle.getType().value == 'sedan' %}
+							🚙
+						{% else %}
+							🚐
+						{% endif %}
+					</h5>
+				</header>
+				<p>
+					<small>capacity:</small>
+					<strong>{{ vehicle.getCapacity() }}</strong>
+				</p>
+				<p>
+					<small>price per day:</small>
+					<strong>{{ vehicle.getPricePerDay() }}</strong>
+				</p>
+				<p>
+					<small>status:</small>
+					<strong>{{vehicle.getStatus().value}}</strong>
+				</p>
+				<p>
+					<footer></footer>
+				</p>
+			</article>
+		{% endfor %}
+	</div>
 
-    <br>
-    <a href="{{ path(constant('App\\Constants\\AppConstants::ROUTE_HOME')) }}">Back to Home</a>
+	<br>
+	<a href="{{ path(constant('App\\Constants\\AppConstants::ROUTE_HOME')) }}">Back to Home</a>
 {% endblock %}

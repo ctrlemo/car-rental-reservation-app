@@ -33,3 +33,11 @@ form .validation-errors ul {
 .flash-error header {
     background-color: var(--pico-color-red-500);
 }
+
+/* vehicle related styles */
+.vehicle-list.grid {
+    text-transform: capitalize;
+    @media screen and (min-width: 768px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
