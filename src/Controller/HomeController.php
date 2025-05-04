@@ -46,12 +46,7 @@ class HomeController extends AbstractController
             // since it is not sensitive data like password or credit card number.
             // but I don't want to expose the reservation data in the URL and have to worry about validating it again on the next page.
             $session = $request->getSession();
-            $session->set(AppConstants::SESSION_RESERVATION_KEY, [
-                'startDate' => $reservation->getStartDate(),
-                'endDate' => $reservation->getEndDate(),
-                'passengerCount' => $reservation->getPassengerCount(),
-                'userEmail' => $reservation->getUserEmail(),
-            ]);
+            $session->set(AppConstants::SESSION_RESERVATION_KEY, $reservation);
 
             // Redirect to a confirmation page or another action.
             return $this->redirectToRoute(AppConstants::ROUTE_RESERVATION_INDEX);

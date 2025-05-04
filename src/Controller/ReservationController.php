@@ -14,6 +14,7 @@ use DateTime;
 //local
 use App\Service\VehicleSelectorService;
 use App\Constants\AppConstants;
+use App\Entity\Reservation;
 
 class ReservationController extends AbstractController
 {
@@ -23,17 +24,17 @@ class ReservationController extends AbstractController
     // Retrieve reservation data from the session
     $reservation = $session->get(AppConstants::SESSION_RESERVATION_KEY);
     // dd($reservation);
-    if (!$reservation) {
-        $this->addFlash('notice', 'No reservation data found.');
+    if (!$reservation || !$reservation instanceof Reservation) {
+        $this->addFlash('error', 'No reservation data found.');
         return $this->redirectToRoute(AppConstants::ROUTE_HOME);
     }
 
     // Use VehicleSelectorService to find available vehicles
     $availableVehicles = $vehicleSelectorService->findAvailableVehicles(
-        $reservation['startDate'],
-        $reservation['endDate'],
-        $reservation['passengerCount'],
-        $reservation['userEmail']
+        $reservation->getStartDate(),
+        $reservation->getEndDate(),
+        $reservation->getPassengerCount(),
+        $reservation->getUserEmail()
     );
 
     //dd($availableVehicles);
