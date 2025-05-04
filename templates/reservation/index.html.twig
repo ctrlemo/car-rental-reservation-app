@@ -8,44 +8,51 @@
 	<h1>Reservation Process</h1>
 
 	<p>Available vehicles</p>
-	<ul>
+	{# <ul>
 		{% for vehicle in availableVehicles %}
 			<li>{{ vehicle }}</li>
 		{% endfor %}
-	</ul>
-	<div class="vehicle-list grid">
-		{% for vehicle in availableVehicles %}
-			<article id="{{ vehicle.getId() }}">
-				<header>
-					<h5>{{ vehicle.getType().value }}
-						{% if vehicle.getType().value == 'convertible' %}
-							🏎️
-						{% elseif vehicle.getType().value == 'sedan' %}
-							🚙
-						{% else %}
-							🚐
-						{% endif %}
-					</h5>
-				</header>
-				<p>
-					<small>capacity:</small>
-					<strong>{{ vehicle.getCapacity() }}</strong>
-				</p>
-				<p>
-					<small>price per day:</small>
-					<strong>{{ vehicle.getPricePerDay() }}</strong>
-				</p>
-				<p>
-					<small>status:</small>
-					<strong>{{vehicle.getStatus().value}}</strong>
-				</p>
-				<p>
-					<footer></footer>
-				</p>
-			</article>
-		{% endfor %}
-	</div>
+	</ul> #}
+	{% if availableVehicles is not empty and form.vehicle is not empty %}
+		{{ form_start(form) }}
+		<div class="vehicle-list grid">
+			{% for choice in form.vehicle %}
+				<label>
+					{{ form_widget(choice) }}
+					<article id="{{ availableVehicles[loop.index0].getId() }}">
+						<header>
+							<h5>{{ availableVehicles[loop.index0].getType().value }}
+								{% if availableVehicles[loop.index0].getType().value == 'convertible' %}
+									🏎️
+								{% elseif availableVehicles[loop.index0].getType().value == 'sedan' %}
+									🚙
+								{% else %}
+									🚐
+								{% endif %}
+							</h5>
+						</header>
+						<p>
+							<small>capacity:</small>
+							<strong>{{ availableVehicles[loop.index0].getCapacity() }}</strong>
+						</p>
+						<p>
+							<small>price per day:</small>
+							<strong>{{ availableVehicles[loop.index0].getPricePerDay() }}</strong>
+						</p>
+						<p>
+							<small>status:</small>
+							<strong>{{ availableVehicles[loop.index0].getStatus().value }}</strong>
+						</p>
+					</article>
+				</label>
+			{% endfor %}
 
+		{% endif %}
+	</div>
+	<div class="form-wrapper">
+		{{ form_row(form.submit) }}
+	</div>
+	{{ form_end(form) }}
 	<br>
 	<a href="{{ path(constant('App\\Constants\\AppConstants::ROUTE_HOME')) }}">Back to Home</a>
 {% endblock %}

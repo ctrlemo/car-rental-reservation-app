@@ -42,3 +42,24 @@ form .validation-errors ul {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+.vehicle-list.grid > * {
+    width: 100%;
+}
+
+.vehicle-list input[type="radio"] {
+    display: none; /* Hide the default radio buttons */
+}
+
+.vehicle-list article {
+    border: 1px solid var(--pico-color-grey-300);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.vehicle-list article:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-list input[type="radio"]:checked + article {
+    border-color: var(--pico-color-blue-500);
+}
