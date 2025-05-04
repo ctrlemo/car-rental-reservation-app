@@ -63,3 +63,13 @@ form .validation-errors ul {
 .vehicle-list input[type="radio"]:checked + article {
     border-color: var(--pico-color-blue-500);
 }
+
+.reservation-details {
+    display: flex;
+    justify-content: space-between;
+    text-transform: capitalize;
+    padding: 0.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--pico-color-grey-300);
+    background-color: var(--pico-color-grey-50);
+}

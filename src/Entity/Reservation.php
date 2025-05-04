@@ -120,6 +120,16 @@ class Reservation
         return $days * $this->vehicle->getPricePerDay();
     }
 
+    public function getTotalDays(): int
+    {
+        return $this->endDate->diff($this->startDate)->days;
+    }
+    
+    public function getTotalPrice(): int
+    {
+        return $this->getTotalDays() * $this->vehicle->getPricePerDay();
+    }
+
     public function __toString(): string
     {
         return sprintf(

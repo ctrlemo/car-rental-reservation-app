@@ -9,10 +9,21 @@
 
 	<p>Available vehicles</p>
 	{# <ul>
-		{% for vehicle in availableVehicles %}
-			<li>{{ vehicle }}</li>
-		{% endfor %}
-	</ul> #}
+			{% for vehicle in availableVehicles %}
+				<li>{{ vehicle }}</li>
+			{% endfor %}
+		</ul> #}
+	{% if reservation is not empty %}
+		<div class="reservation-details">
+			<small>start date:
+				{{ reservation.getStartDate()|date("m/d/Y")  }}</small>
+			<small>end date:
+				{{ reservation.getEndDate()|date("m/d/Y") }}</small>
+				<small>total days:
+				{{ reservation.getTotalDays() }}</small>
+		</div>
+	{% endif %}
+
 	{% if availableVehicles is not empty and form.vehicle is not empty %}
 		{{ form_start(form) }}
 		<div class="vehicle-list grid">
