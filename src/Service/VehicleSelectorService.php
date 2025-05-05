@@ -167,4 +167,19 @@ class VehicleSelectorService
     {
         return $this->reservationRepository->findAll();
     }
+
+    /**
+     * Finalize the reservation by persisting it to the database and returning its ID.
+     *
+     * @param Reservation $reservation The reservation to finalize.
+     * @return int The ID of the finalized reservation.
+     */
+    public function finalizeReservation(Reservation $reservation): Reservation
+    {
+        $this->logger->info('finalizeReservation called');
+        $this->em->persist($reservation);
+        $this->em->flush();
+
+        return $reservation;
+    }
 }

@@ -17,8 +17,16 @@ use App\Constants\AppConstants;
 use App\Entity\Reservation;
 use App\Form\VehicleSelectionType;
 
+use Psr\Log\LoggerInterface;
+
 class ReservationController extends AbstractController
 {
+    private LoggerInterface $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
     #[Route('/results', name: AppConstants::ROUTE_RESERVATION_INDEX)]
     public function index(SessionInterface $session, VehicleSelectorService $vehicleSelectorService, Request $request): Response
     {
@@ -63,18 +71,56 @@ class ReservationController extends AbstractController
 
             // Combine the reservation data with the selected vehicle
             $reservation->setVehicle($data['vehicle']);
-            dd($reservation);
+            //dd($reservation);
             // Save the finalized reservation using the VehicleSelectorService
-            // $vehicleSelectorService->finalizeReservation($reservation);
+            $vehicleSelectorService->finalizeReservation($reservation);
 
-            $this->addFlash('success', 'Reservation confirmed!');
-            return $this->redirectToRoute('app_reservation_confirm');
+            // Store the reservation in the session
+            $session->set(AppConstants::SESSION_RESERVATION_KEY, $reservation);
+            $this->addFlash('notice', 'Reservation confirmed!');
+            return $this->redirectToRoute(AppConstants::ROUTE_RESERVATION_CONFIRM);
         }
 
         return $this->render('reservation/index.html.twig', [
             'form' => $form,
             'reservation' => $reservation,
             'availableVehicles' => $availableVehicles,
+        ]);
+    }
+
+    #[Route('/confirm', name: AppConstants::ROUTE_RESERVATION_CONFIRM)]
+    /**
+     * @param SessionInterface $session
+     * @return Response
+     */
+    // Confirm the reservation and display the confirmation page
+    // This method is responsible for displaying the reservation confirmation page.
+    // It retrieves the reservation data from the session and renders the confirmation template.
+    // If the reservation data is not found in the session, it redirects to the home page with an error message.
+    public function confirm(SessionInterface $session): Response
+    {
+        // Retrieve reservation data from the session
+        $reservation = $session->get(AppConstants::SESSION_RESERVATION_KEY);
+        if (!$reservation || !$reservation instanceof Reservation) {
+            $this->addFlash('error', 'No reservation data found.');
+            return $this->redirectToRoute(AppConstants::ROUTE_HOME);
+        }
+
+        // Check if the reservation is finalized
+        if (!$reservation->getVehicle() || !$reservation->getId()) {
+            // log the error
+            $this->logger->error(AppConstants::RESERVATION_NOT_FINALIZED, [
+                'reservation' => $reservation,
+            ]);
+            $this->addFlash('error', AppConstants::RESERVATION_NOT_FINALIZED);
+            return $this->redirectToRoute(AppConstants::ROUTE_HOME);
+        }
+
+        // clear the session, so the reservation is not available anymore
+        // This is important to prevent the user from accessing the reservation data again
+        $session->clear();
+        return $this->render('reservation/confirm.html.twig', [
+            'reservation' => $reservation,
         ]);
     }
 }

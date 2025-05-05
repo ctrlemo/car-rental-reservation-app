@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reservation Confirmation{% endblock %}
+
+{% block body %}
+    <h1>Reservation Confirmation</h1>
+
+    <p>Thank you for your reservation, {{ reservation.getUserEmail() }}!</p>
+
+    <h2>Reservation Details</h2>
+    <ul>
+        <li><strong>reservation id:</strong> {{ reservation.getId() }}</li>
+        <li><strong>vehicle type:</strong> {{ reservation.getVehicle().getType().value }}</li>
+        <li><strong>start date:</strong> {{ reservation.getStartDate()|date('F j, Y') }}</li>
+        <li><strong>end date:</strong> {{ reservation.getEndDate()|date('F j, Y') }}</li>
+        <li><strong>total price:</strong> ${{ reservation.getTotalPrice() }}</li>
+    </ul>
+
+    <p>If you have any questions, please contact us at <a href="mailto:support@carr.com">support@carr.com</a>.</p>
+
+    <a href="{{ path(constant('App\\Constants\\AppConstants::ROUTE_HOME')) }}" class="btn btn-primary">Back to Home</a>
+{% endblock %}
