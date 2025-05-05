@@ -71,5 +71,11 @@ form .validation-errors ul {
     padding: 0.25rem;
     margin-bottom: 1rem;
     border: 1px solid var(--pico-color-grey-300);
-    background-color: var(--pico-color-grey-50);
+    background-color: var(--pico-background-color);
+}
+
+@media screen and (max-width: 250px) {
+    .reservation-details {
+        flex-direction: column;
+    }
 }
