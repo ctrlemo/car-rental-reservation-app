@@ -47,7 +47,8 @@ form .validation-errors ul {
 }
 
 .vehicle-list input[type="radio"] {
-    display: none; /* Hide the default radio buttons */
+    /*display: none; */ /* Hide the default radio buttons */
+    opacity: 0; /* we can use opacity to hide the radio buttons, but still keep them accessible for screen readers and keep native support for form input validation messages. */
 }
 
 .vehicle-list article {
