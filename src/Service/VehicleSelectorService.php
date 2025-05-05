@@ -113,7 +113,7 @@ class VehicleSelectorService
                 $endDate
             );
 
-            if ($overlappingReservationsCount === 0) {
+            if ($overlappingReservationsCount == 0) {
                 $availableVehicles[] = $vehicle;
             }
         }
