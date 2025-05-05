@@ -54,6 +54,10 @@
 							<small>status:</small>
 							<strong>{{ availableVehicles[loop.index0].getStatus().value }}</strong>
 						</p>
+						<footer>
+							<small>Total Price:</small>
+							<strong>{{ availableVehicles[loop.index0].getPricePerDay() * reservation.getTotalDays()}}</strong>
+						</footer>
 					</article>
 				</label>
 			{% endfor %}

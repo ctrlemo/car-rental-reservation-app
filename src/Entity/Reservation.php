@@ -68,7 +68,7 @@ class Reservation
     {
         return $this->startDate;
     }
-    public function setStartDate(\DateTimeInterface $startDate): static
+    public function setStartDate(\DateTimeInterface $startDate)
     {
         $this->startDate = $startDate;
 
@@ -78,7 +78,7 @@ class Reservation
     {
         return $this->endDate;
     }
-    public function setEndDate(\DateTimeInterface $endDate): static
+    public function setEndDate(\DateTimeInterface $endDate)
     {
         $this->endDate = $endDate;
 
@@ -88,7 +88,7 @@ class Reservation
     {
         return $this->passengerCount;
     }
-    public function setPassengerCount(int $passengerCount): static
+    public function setPassengerCount(int $passengerCount)
     {
         $this->passengerCount = $passengerCount;
 
@@ -98,7 +98,7 @@ class Reservation
     {
         return $this->userEmail;
     }
-    public function setUserEmail(string $userEmail): static
+    public function setUserEmail(string $userEmail)
     {
         $this->userEmail = $userEmail;
 
@@ -108,16 +108,11 @@ class Reservation
     {
         return $this->vehicle;
     }
-    public function setVehicle(Vehicle $vehicle): static
+    public function setVehicle(Vehicle $vehicle)
     {
         $this->vehicle = $vehicle;
 
         return $this;
-    }
-    public function getPrice(): int
-    {
-        $days = $this->endDate->diff($this->startDate)->days;
-        return $days * $this->vehicle->getPricePerDay();
     }
 
     public function getTotalDays(): int

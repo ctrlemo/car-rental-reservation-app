@@ -48,7 +48,7 @@ class Vehicle
         return $this->capacity;
     }
 
-    public function setCapacity(int $capacity): static
+    public function setCapacity(int $capacity)
     {
         $this->capacity = $capacity;
 
@@ -60,7 +60,7 @@ class Vehicle
         return $this->pricePerDay;
     }
 
-    public function setPricePerDay(int $pricePerDay): static
+    public function setPricePerDay(int $pricePerDay)
     {
         $this->pricePerDay = $pricePerDay;
 
@@ -71,7 +71,7 @@ class Vehicle
     {
         return $this->fuelPercentage;
     }
-    public function setFuelPercentage(int $fuelPercentage): static
+    public function setFuelPercentage(int $fuelPercentage)
     {
         $this->fuelPercentage = $fuelPercentage;
 
@@ -81,7 +81,7 @@ class Vehicle
     {
         return $this->type;
     }
-    public function setType(VehicleType $type): static
+    public function setType(VehicleType $type)
     {
         $this->type = $type;
 
@@ -93,7 +93,7 @@ class Vehicle
         return $this->status;
     }
 
-    public function setStatus(VehicleStatus $status): static
+    public function setStatus(VehicleStatus $status)
     {
         $this->status = $status;
 
