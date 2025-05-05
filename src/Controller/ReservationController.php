@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 //local
 use App\Service\VehicleSelectorService;
+use App\Service\WeatherService; 
 use App\Constants\AppConstants;
 use App\Entity\Reservation;
 use App\Form\VehicleSelectionType;
@@ -28,7 +29,7 @@ class ReservationController extends AbstractController
         $this->logger = $logger;
     }
     #[Route('/results', name: AppConstants::ROUTE_RESERVATION_INDEX)]
-    public function index(SessionInterface $session, VehicleSelectorService $vehicleSelectorService, Request $request): Response
+    public function index(SessionInterface $session, VehicleSelectorService $vehicleSelectorService, WeatherService $weatherService, Request $request): Response
     {
         // Retrieve reservation data from the session
         $reservation = $session->get(AppConstants::SESSION_RESERVATION_KEY);
@@ -60,6 +61,12 @@ class ReservationController extends AbstractController
             return $this->redirectToRoute(AppConstants::ROUTE_HOME);
         }
 
+        // Get the weather forecast for the selected dates
+        $weatherData = $weatherService->getWeather(
+            $reservation->getStartDate(),
+            $reservation->getEndDate(),
+        );
+
         // Create the vehicle selection form
         $form = $this->createForm(VehicleSelectionType::class, null, [
             'vehicles' => $availableVehicles, // Pass available vehicles to the form
@@ -85,6 +92,7 @@ class ReservationController extends AbstractController
             'form' => $form,
             'reservation' => $reservation,
             'availableVehicles' => $availableVehicles,
+            'weatherData' => $weatherData,
         ]);
     }
 

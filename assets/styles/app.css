@@ -80,3 +80,8 @@ form .validation-errors ul {
         flex-direction: column;
     }
 }
+
+/* weather table */
+.weather-table{
+    font-size: medium;
+}

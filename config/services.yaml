@@ -7,6 +7,9 @@ parameters:
     min_rental_days: '%env(MIN_RENTAL_DAYS)%'
     max_rental_days: '%env(MAX_RENTAL_DAYS)%'
     cooldown_days: '%env(COOLDOWN_DAYS)%'
+    weather_api_key: '%env(WEATHER_API_KEY)%'
+    weather_api_url: '%env(WEATHER_API_URL)%'
+    weather_api_location: '%env(WEATHER_API_LOCATION)%'
 
 services:
     # default configuration for services in *this* file
@@ -27,5 +30,10 @@ services:
             $minRentalDays: '%min_rental_days%'
             $maxRentalDays: '%max_rental_days%'
             $cooldownDays: '%cooldown_days%'
+    App\Service\WeatherService:
+        arguments:
+            $apiKey: '%weather_api_key%'
+            $apiUrl: '%weather_api_url%'
+            $apiLocation: '%weather_api_location%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
