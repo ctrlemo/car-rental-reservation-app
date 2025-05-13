@@ -13,7 +13,7 @@
         <li><strong>vehicle type:</strong> {{ reservation.getVehicle().getType().value }}</li>
         <li><strong>start date:</strong> {{ reservation.getStartDate()|date('F j, Y') }}</li>
         <li><strong>end date:</strong> {{ reservation.getEndDate()|date('F j, Y') }}</li>
-        <li><strong>total price:</strong> ${{ reservation.getTotalPrice() }}</li>
+        <li><strong>total price:</strong> {{ reservation.getTotalPriceConverted(currency_units)|format_currency(currency_code) }}</li>
     </ul>
 
     <p>If you have any questions, please contact us at <a href="mailto:support@carr.com">support@carr.com</a>.</p>

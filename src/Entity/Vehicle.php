@@ -100,6 +100,12 @@ class Vehicle
         return $this;
     }
 
+    // get price per day converted from currency units
+    public function getPricePerDayConverted(int $currencyUnits = 100): float
+    {
+                return $this->pricePerDay / $currencyUnits;
+    }
+
     public function __toString(): string
     {
         return sprintf(

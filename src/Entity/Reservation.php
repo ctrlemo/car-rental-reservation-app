@@ -125,6 +125,11 @@ class Reservation
         return $this->getTotalDays() * $this->vehicle->getPricePerDay();
     }
 
+    public function getTotalPriceConverted(int $currencyUnits = 100): float
+    {
+        return $this->getTotalDays() * $this->vehicle->getPricePerDayConverted($currencyUnits);
+    }
+
     public function __toString(): string
     {
         return sprintf(

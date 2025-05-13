@@ -48,7 +48,7 @@
 						</p>
 						<p>
 							<small>price per day:</small>
-							<strong>{{ availableVehicles[loop.index0].getPricePerDay() }}</strong>
+							<strong>{{ availableVehicles[loop.index0].getPricePerDayConverted(currency_units)|format_currency(currency_code) }}</strong>
 						</p>
 						<p>
 							<small>status:</small>
@@ -56,7 +56,7 @@
 						</p>
 						<footer>
 							<small>Total Price:</small>
-							<strong>{{ availableVehicles[loop.index0].getPricePerDay() * reservation.getTotalDays()}}</strong>
+							<strong>{{ (availableVehicles[loop.index0].getPricePerDayConverted(currency_units) * reservation.getTotalDays())|format_currency(currency_code)}}</strong>
 						</footer>
 					</article>
 				</label>

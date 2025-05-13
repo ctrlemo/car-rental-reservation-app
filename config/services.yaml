@@ -10,6 +10,8 @@ parameters:
     weather_api_key: '%env(WEATHER_API_KEY)%'
     weather_api_url: '%env(WEATHER_API_URL)%'
     weather_api_location: '%env(WEATHER_API_LOCATION)%'
+    currency_code: '%env(CURRENCY_CODE)%'
+    currency_units: '%env(CURRENCY_UNITS)%'
 
 services:
     # default configuration for services in *this* file
@@ -37,3 +39,8 @@ services:
             $apiLocation: '%weather_api_location%'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+twig:
+    globals:
+        currency_code: '%currency_code%'
+        currency_units: '%currency_units%'
